@@ -1,13 +1,8 @@
-import React from "react";
-
-import { CollaborativeApp } from "./_components/CollaborativeApp";
-import { Room } from "./_components/Room";
-
 const HomePage = () => {
 	return (
-		<Room>
-			<CollaborativeApp />
-		</Room>
+		<div className="h-[100vh] w-full flex justify-center items-center text-center">
+			<h1 className="text-white text-2xl">Liveblocks Figma Clone</h1>
+		</div>
 	);
 };
 
