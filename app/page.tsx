@@ -1,27 +1,28 @@
 "use client";
 
-import { use, useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
+import { useEffect, useRef, useState } from "react";
 
 import { Live } from "@/components/Live";
-import Navbar from "./_components/Navbar";
-import { LeftSidebar } from "./_components/LeftSidebar";
-import { RightSidebar } from "./_components/RightSidebar";
+import { defaultNavElement } from "@/constants";
 import {
 	handleCanvasMouseDown,
-	handleCanvasMouseUp,
 	handleCanvasMouseMove,
+	handleCanvasMouseUp,
+	handleCanvasObjectModified,
+	handleCanvasObjectScaling,
+	handleCanvasSelectionCreated,
 	handleResize,
 	initializeFabric,
 	renderCanvas,
-	handleCanvasObjectModified,
-	handleCanvasSelectionCreated,
 } from "@/lib/canvas";
-import { ActiveElement } from "@/types/type";
-import { useMutation, useRedo, useStorage, useUndo } from "@/liveblocks.config";
-import { defaultNavElement } from "@/constants";
 import { handleDelete, handleKeyDown } from "@/lib/key-events";
 import { handleImageUpload } from "@/lib/shapes";
+import { useMutation, useRedo, useStorage, useUndo } from "@/liveblocks.config";
+import { ActiveElement } from "@/types/type";
+import { LeftSidebar } from "./_components/LeftSidebar";
+import Navbar from "./_components/Navbar";
+import { RightSidebar } from "./_components/RightSidebar";
 
 const HomePage = () => {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -159,6 +160,12 @@ const HomePage = () => {
 			handleCanvasSelectionCreated({
 				options,
 				isEditingRef,
+				setElementAttributes,
+			});
+		});
+		canvas.on("object:scaling", (options) => {
+			handleCanvasObjectScaling({
+				options,
 				setElementAttributes,
 			});
 		});
