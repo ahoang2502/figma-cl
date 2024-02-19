@@ -43,10 +43,15 @@ export const RightSidebar = ({
 			<Dimensions
 				width={elementAttributes.width}
 				height={elementAttributes.height}
-				handleInputChange={handleInputChange}
 				isEditingRef={isEditingRef}
+				handleInputChange={handleInputChange}
 			/>
-			<Text />
+			<Text
+				fontSize={elementAttributes.fontSize}
+				fontFamily={elementAttributes.fontFamily}
+				fontWeight={elementAttributes.fontWeight}
+				handleInputChange={handleInputChange}
+			/>
 			<Color />
 			<Color />
 			<Export />
