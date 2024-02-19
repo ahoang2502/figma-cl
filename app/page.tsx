@@ -155,7 +155,7 @@ const HomePage = () => {
 			/>
 
 			<section className="flex flex-row h-full">
-				<LeftSidebar />
+				<LeftSidebar allShapes={Array.from(canvasObjects)} />
 
 				<Live canvasRef={canvasRef} />
 
