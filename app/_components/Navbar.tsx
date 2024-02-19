@@ -6,7 +6,6 @@ import { memo } from "react";
 import { navElements } from "@/constants";
 import { ActiveElement, NavbarProps } from "@/types/type";
 
-
 import ShapesMenu from "../../components/ShapesMenu";
 import { NewThread } from "../../components/comments/NewThread";
 import { Button } from "@/components/ui/button";
@@ -53,7 +52,6 @@ const Navbar = ({
 								handleImageUpload={handleImageUpload}
 							/>
 						) : item?.value === "comments" ? (
-							// If value is comments, trigger the NewThread component
 							<NewThread>
 								<Button className="relative w-5 h-5 object-contain">
 									<Image
