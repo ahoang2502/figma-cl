@@ -13,7 +13,11 @@ import { ReactionSelector } from "./reaction/ReactionButton";
 import { FlyingReaction } from "./reaction/FlyingReaction";
 import useInterval from "@/hooks/useInterval";
 
-export const Live = () => {
+interface LiveProps {
+	canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
+}
+
+export const Live = ({ canvasRef }: LiveProps) => {
 	const [cursorState, setCursorState] = useState<CursorState>({
 		mode: CursorMode.Hidden,
 	});
@@ -166,13 +170,14 @@ export const Live = () => {
 
 	return (
 		<div
+			id="canvas"
 			onPointerMove={handlerPointerMove}
 			onPointerLeave={handlerPointerLeave}
 			onPointerDown={handlerPointerDown}
 			onPointerUp={handlePointerUp}
 			className="h-[100vh] w-full flex justify-center items-center text-center"
 		>
-			<h1 className="text-white text-2xl">Liveblocks Figma Clone</h1>
+			<canvas ref={canvasRef} />
 
 			{reaction.map((r) => (
 				<FlyingReaction
