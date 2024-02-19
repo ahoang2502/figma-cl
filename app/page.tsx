@@ -219,7 +219,7 @@ const HomePage = () => {
 			<section className="flex flex-row h-full">
 				<LeftSidebar allShapes={Array.from(canvasObjects)} />
 
-				<Live canvasRef={canvasRef} />
+				<Live canvasRef={canvasRef} undo={undo} redo={redo} />
 
 				<RightSidebar
 					elementAttributes={elementAttributes}
