@@ -2,6 +2,8 @@
 
 import { Live } from "@/components/Live";
 import Navbar from "./_components/Navbar";
+import { LeftSidebar } from "./_components/LeftSidebar";
+import { RightSidebar } from "./_components/RightSidebar";
 
 const HomePage = () => {
 	return (
@@ -9,7 +11,11 @@ const HomePage = () => {
 			<Navbar />
 
 			<section className="flex flex-row h-full">
+				<LeftSidebar />
+
 				<Live />
+
+				<RightSidebar />
 			</section>
 		</main>
 	);
