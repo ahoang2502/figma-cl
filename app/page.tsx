@@ -17,16 +17,16 @@ import {
 	handleCanvasObjectModified,
 } from "@/lib/canvas";
 import { ActiveElement } from "@/types/type";
-import { useMutation, useStorage } from "@/liveblocks.config";
+import { useMutation, useRedo, useStorage, useUndo } from "@/liveblocks.config";
 import { defaultNavElement } from "@/constants";
-import { handleDelete } from "@/lib/key-events";
+import { handleDelete, handleKeyDown } from "@/lib/key-events";
 
 const HomePage = () => {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const fabricRef = useRef<fabric.Canvas | null>(null);
 	const isDrawing = useRef(false);
 	const shapeRef = useRef<fabric.Object | null>(null);
-	const selectedShapeRef = useRef<string | null>("rectangle");
+	const selectedShapeRef = useRef<string | null>(null);
 	const activeObjectRef = useRef<fabric.Object | null>(null);
 
 	const [activeElement, setActiveElement] = useState<ActiveElement>({
@@ -36,6 +36,8 @@ const HomePage = () => {
 	});
 
 	const canvasObjects = useStorage((root) => root.canvasObjects);
+	const undo = useUndo();
+	const redo = useRedo();
 
 	const syncShapeInStorage = useMutation(({ storage }, object) => {
 		if (!object) return;
@@ -132,6 +134,17 @@ const HomePage = () => {
 
 		window.addEventListener("resize", () => {
 			handleResize({ canvas: fabricRef.current });
+		});
+
+		window.addEventListener("keydown", (e:any) => {
+			handleKeyDown({
+				e,
+				canvas: fabricRef.current,
+				syncShapeInStorage,
+				deleteShapeFromStorage,
+				undo,
+				redo,
+			});
 		});
 
 		return () => {
