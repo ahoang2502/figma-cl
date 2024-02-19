@@ -15,6 +15,7 @@ import {
 	initializeFabric,
 	renderCanvas,
 	handleCanvasObjectModified,
+	handleCanvasSelectionCreated,
 } from "@/lib/canvas";
 import { ActiveElement } from "@/types/type";
 import { useMutation, useRedo, useStorage, useUndo } from "@/liveblocks.config";
@@ -32,10 +33,21 @@ const HomePage = () => {
 
 	const imageInputRef = useRef<HTMLInputElement>(null);
 
+	const isEditingRef = useRef(false);
+
 	const [activeElement, setActiveElement] = useState<ActiveElement>({
 		name: "",
 		value: "",
 		icon: "",
+	});
+	const [elementAttributes, setElementAttributes] = useState({
+		width: "",
+		height: "",
+		fontSize: "",
+		fontFamily: "",
+		fontWeight: "",
+		fill: "#aabbcc",
+		stroke: "#aabbcc",
 	});
 
 	const canvasObjects = useStorage((root) => root.canvasObjects);
@@ -143,6 +155,13 @@ const HomePage = () => {
 				syncShapeInStorage,
 			});
 		});
+		canvas.on("selection:created", (options: any) => {
+			handleCanvasSelectionCreated({
+				options,
+				isEditingRef,
+				setElementAttributes,
+			});
+		});
 
 		window.addEventListener("resize", () => {
 			handleResize({ canvas: fabricRef.current });
@@ -195,7 +214,14 @@ const HomePage = () => {
 
 				<Live canvasRef={canvasRef} />
 
-				<RightSidebar />
+				<RightSidebar
+					elementAttributes={elementAttributes}
+					setElementAttributes={setElementAttributes}
+					fabricRef={fabricRef}
+					isEditingRef={isEditingRef}
+					activeObjectRef={activeObjectRef}
+					syncShapeInStorage={syncShapeInStorage}
+				/>
 			</section>
 		</main>
 	);
