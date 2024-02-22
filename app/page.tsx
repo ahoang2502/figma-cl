@@ -12,6 +12,7 @@ import {
 	handleCanvasObjectModified,
 	handleCanvasObjectScaling,
 	handleCanvasSelectionCreated,
+	handlePathCreated,
 	handleResize,
 	initializeFabric,
 	renderCanvas,
@@ -168,6 +169,9 @@ const HomePage = () => {
 				options,
 				setElementAttributes,
 			});
+		});
+		canvas.on("path:created", (options: any) => {
+			handlePathCreated({ options, syncShapeInStorage });
 		});
 
 		window.addEventListener("resize", () => {
