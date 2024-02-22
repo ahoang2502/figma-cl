@@ -1,25 +1,24 @@
 import React, { useCallback, useEffect, useState } from "react";
 
-import { LiveCursors } from "./cursor/LiveCursors";
+import { shortcuts } from "@/constants";
+import useInterval from "@/hooks/useInterval";
 import {
 	useBroadcastEvent,
 	useEventListener,
 	useMyPresence,
-	useOthers,
 } from "@/liveblocks.config";
-import { CursorChat } from "./cursor/CursorChat";
-import { CursorMode, CursorState, Reaction, ReactionEvent } from "@/types/type";
-import { ReactionSelector } from "./reaction/ReactionButton";
-import { FlyingReaction } from "./reaction/FlyingReaction";
-import useInterval from "@/hooks/useInterval";
+import { CursorMode, CursorState, Reaction } from "@/types/type";
 import { Comments } from "./comments/Comments";
+import { CursorChat } from "./cursor/CursorChat";
+import { LiveCursors } from "./cursor/LiveCursors";
+import { FlyingReaction } from "./reaction/FlyingReaction";
+import { ReactionSelector } from "./reaction/ReactionButton";
 import {
 	ContextMenu,
 	ContextMenuContent,
 	ContextMenuItem,
 	ContextMenuTrigger,
 } from "./ui/context-menu";
-import { shortcuts } from "@/constants";
 
 interface LiveProps {
 	canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
@@ -33,10 +32,9 @@ export const Live = ({ canvasRef, undo, redo }: LiveProps) => {
 	});
 	const [reaction, setReaction] = useState<Reaction[]>([]);
 
-	const others = useOthers();
 	const broadcast = useBroadcastEvent();
 
-	const [{ cursor }, updateMyPresence] = useMyPresence() as any;
+	const [{ cursor }, updateMyPresence] = useMyPresence();
 
 	// useCallback - doesn't recreate the function every time
 	const handlerPointerMove = useCallback((event: React.PointerEvent) => {
@@ -165,7 +163,7 @@ export const Live = ({ canvasRef, undo, redo }: LiveProps) => {
 	}, 100);
 
 	useEventListener((eventData) => {
-		const event = eventData.event as ReactionEvent;
+		const event = eventData.event;
 
 		setReaction((reactions) =>
 			reactions.concat([
@@ -242,7 +240,7 @@ export const Live = ({ canvasRef, undo, redo }: LiveProps) => {
 					<ReactionSelector setReaction={setReactions} />
 				)}
 
-				<LiveCursors others={others} />
+				<LiveCursors  />
 
 				<Comments />
 			</ContextMenuTrigger>
